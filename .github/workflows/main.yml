@@ -24,8 +24,8 @@ jobs:
 
     - name: Build Docker Image
       run: |
-       docker build . -t ${{ secrets.DOCKER_USER }}/ABI:latest
-       docker push ${{ secrets.DOCKER_USER }}/ABI:latest
+       docker build . -t ${{ secrets.DOCKER_USER }}/abi:latest
+       docker push ${{ secrets.DOCKER_USER }}/abi:latest
         
 
     - name: print key
@@ -38,7 +38,7 @@ jobs:
     - name: Deploy to EC2
       run: |
          ssh -o StrictHostKeyChecking=no -i private_key.pem ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} '
-            docker pull ${{ secrets.DOCKER_USER }}/ABI:latest
+            docker pull ${{ secrets.DOCKER_USER }}/abi:latest
             docker stop laravel-app || true &&
             docker rm laravel-app || true &&
-            docker run -d --restart=always -p 9000:9000 --name laravel-app ABI:latest'
+            docker run -d --restart=always -p 9000:9000 --name laravel-app abi:latest'
